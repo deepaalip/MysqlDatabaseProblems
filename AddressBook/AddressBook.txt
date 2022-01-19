@@ -1,0 +1,149 @@
+mysql>CREATE DATABASE address_book;
+Query OK, 1 row affected (0.22 sec)
+
+mysql> Show databases;
++--------------------+
+| Database           |
++--------------------+
+| a                  |
+| address_book       |
+| information_schema |
+| mysql              |
+| payroll_service    |
+| performance_schema |
+| sakila             |
+| sys                |
+| world              |
++--------------------+
+9 rows in set (0.07 sec)
+
+mysql> use address_book;
+Database changed
+mysql> CREATE TABLE address_book(First_name varchar(50),
+    ->      Last_name varchar(50),
+    ->      Address varchar(150),
+    ->      City varchar(50),
+    ->      State varchar(50),
+    ->      Zip_code int,
+    ->      Phone_number int,
+    ->      Email varchar(50));
+Query OK, 0 rows affected (1.73 sec)
+
+
+mysql> use address_book;
+Database changed
+mysql> CREATE TABLE address_book(First_name varchar(50),
+    ->      Last_name varchar(50),
+    ->      Address varchar(150),
+    ->      City varchar(50),
+    ->      State varchar(50),
+    ->      Zip_code int,
+    ->      Phone_number int,
+    ->      Email varchar(50));
+Query OK, 0 rows affected (1.73 sec)
+
+mysql> INSERT INTO address_book VALUES('sita','patil','CIDCO','nashik','MH','523272','9398359','sita73@gmail.com');
+Query OK, 1 row affected (0.24 sec)
+
+mysql> INSERT INTO address_book VALUES('jui','sawant','main square','surat','GJ','76656','7878767','sawantjui@gmail.com'),('puja','mali','main square','nashik','MH','23232','9988787','pujamali@gmail.com');
+Query OK, 2 rows affected (0.17 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> SELECT * FROM address_book;
++------------+-----------+-------------+--------+-------+----------+--------------+---------------------+
+| First_name | Last_name | Address     | City   | State | Zip_code | Phone_number | Email               |
++------------+-----------+-------------+--------+-------+----------+--------------+---------------------+
+| sita       | patil     | CIDCO       | nashik | MH    |   523272 |      9398359 | sita73@gmail.com    |
+| jui        | sawant    | main square | surat  | GJ    |    76656 |      7878767 | sawantjui@gmail.com |
+| puja       | mali      | main square | nashik | MH    |    23232 |      9988787 | pujamali@gmail.com  |
++------------+-----------+-------------+--------+-------+----------+--------------+---------------------+
+3 rows in set (0.06 sec)
+
+mysql> UPDATE address_book SET state = 'UP' where First_name = 'sita';
+Query OK, 1 row affected (0.11 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> DELETE FROM address_book WHERE First_name = 'sita';
+Query OK, 1 row affected (0.18 sec)
+
+mysql> SELECT * FROM address_book WHERE City = 'nashik';
++------------+-----------+-------------+--------+-------+----------+--------------+--------------------+
+| First_name | Last_name | Address     | City   | State | Zip_code | Phone_number | Email              |
++------------+-----------+-------------+--------+-------+----------+--------------+--------------------+
+| puja       | mali      | main square | nashik | MH    |    23232 |      9988787 | pujamali@gmail.com |
++------------+-----------+-------------+--------+-------+----------+--------------+--------------------+
+1 row in set (0.00 sec)
+
+mysql>  SELECT * FROM address_book WHERE State = 'GJ';
++------------+-----------+-------------+-------+-------+----------+--------------+---------------------+
+| First_name | Last_name | Address     | City  | State | Zip_code | Phone_number | Email               |
++------------+-----------+-------------+-------+-------+----------+--------------+---------------------+
+| jui        | sawant    | main square | surat | GJ    |    76656 |      7878767 | sawantjui@gmail.com |
++------------+-----------+-------------+-------+-------+----------+--------------+---------------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT * FROM address_book WHERE City = 'Nashik' OR State = 'GJ';
++------------+-----------+-------------+--------+-------+----------+--------------+---------------------+
+| First_name | Last_name | Address     | City   | State | Zip_code | Phone_number | Email               |
++------------+-----------+-------------+--------+-------+----------+--------------+---------------------+
+| jui        | sawant    | main square | surat  | GJ    |    76656 |      7878767 | sawantjui@gmail.com |
+| puja       | mali      | main square | nashik | MH    |    23232 |      9988787 | pujamali@gmail.com  |
++------------+-----------+-------------+--------+-------+----------+--------------+---------------------+
+2 rows in set (0.00 sec)
+
+mysql> SELECT COUNT(First_name) FROM address_book WHERE City = 'nashik';
++-------------------+
+| COUNT(First_name) |
++-------------------+
+|                 1 |
++-------------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT COUNT(First_name) FROM address_book WHERE State = 'GJ';
++-------------------+
+| COUNT(First_name) |
++-------------------+
+|                 1 |
++-------------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT COUNT(First_name) FROM address_book WHERE City = 'nashik' or State = 'GJ';
++-------------------+
+| COUNT(First_name) |
++-------------------+
+|                 2 |
++-------------------+
+1 row in set (0.00 sec)
+
+mysql> INSERT INTO address_book VALUES('reema','raut','Star-Base','indore','MP','400005','1845875','reema@gmail.com');
+Query OK, 1 row affected (0.15 sec)
+
+mysql> SELECT * FROM address_book ORDER BY City ASC;
++------------+-----------+-------------+--------+-------+----------+--------------+---------------------+
+| First_name | Last_name | Address     | City   | State | Zip_code | Phone_number | Email               |
++------------+-----------+-------------+--------+-------+----------+--------------+---------------------+
+| reema      | raut      | Star-Base   | indore | MP    |   400005 |      1845875 | reema@gmail.com     |
+| puja       | mali      | main square | nashik | MH    |    23232 |      9988787 | pujamali@gmail.com  |
+| jui        | sawant    | main square | surat  | GJ    |    76656 |      7878767 | sawantjui@gmail.com |
++------------+-----------+-------------+--------+-------+----------+--------------+---------------------+
+3 rows in set (0.15 sec)
+
+mysql> INSERT INTO address_book VALUES('seema','rao','Star-Base','indore','MP','4005','18875','a@gmail.com');
+Query OK, 1 row affected (0.15 sec)
+
+mysql> SELECT * FROM address_book ORDER BY First_name ASC WHERE City = 'indore';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'WHERE City = 'indore'' at line 1
+mysql> SELECT * FROM address_book ORDER BY First_name ASC WHERE City='indore';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'WHERE City='indore'' at line 1
+mysql> SELECT * FROM address_book  WHERE City='indore' ORDER BY First_name ASC;
++------------+-----------+-----------+--------+-------+----------+--------------+-----------------+
+| First_name | Last_name | Address   | City   | State | Zip_code | Phone_number | Email           |
++------------+-----------+-----------+--------+-------+----------+--------------+-----------------+
+| reema      | raut      | Star-Base | indore | MP    |   400005 |      1845875 | reema@gmail.com |
+| seema      | rao       | Star-Base | indore | MP    |     4005 |        18875 | a@gmail.com     |
++------------+-----------+-----------+--------+-------+----------+--------------+-----------------+
+2 rows in set (0.06 sec)
+
+mysql> ALTER TABLE address_book ADD Type varchar(50);
+Query OK, 0 rows affected (1.68 sec)
+Records: 0  Duplicates: 0  Warnings: 0
