@@ -1,0 +1,138 @@
+
+mysql> CREATE DATABASE payroll_service;
+Query OK, 1 row affected (0.09 sec)
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| a                  |
+| information_schema |
+| mysql              |
+| payroll_service    |
+| performance_schema |
+| sakila             |
+| sys                |
+| world              |
++--------------------+
+8 rows in set (0.00 sec)
+
+mysql> use payroll_service;
+Database changed
+mysql> CREATE TABLE employee_payroll(ID int PRIMARY KEY AUTO_INCREMENT , Name varchar(50) , Salary int , Start_date DATE);
+Query OK, 0 rows affected (1.48 sec)
+
+mysql> INSERT INTO employee_payroll VALUES
+    -> (1 , 'Radhika Shah' , 35000 , '2020-12-20'),
+    -> (2,'Smita Jain',28000,'2019-11-6'),
+    -> (3,'Sita Patil',33000,'2021-3-13'),
+    -> (4,'Charlie abc',38000,'2021-4-5'),
+    -> (5 , 'Bill Gates' , 500000 , '2018-1-8');
+Query OK, 5 rows affected (0.20 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+mysql> SELECT * FROM employee_payroll;
++----+--------------+--------+------------+
+| ID | Name         | Salary | Start_date |
++----+--------------+--------+------------+
+|  1 | Radhika Shah |  35000 | 2020-12-20 |
+|  2 | Smita Jain   |  28000 | 2019-11-06 |
+|  3 | Sita Patil   |  33000 | 2021-03-13 |
+|  4 | Charlie abc  |  38000 | 2021-04-05 |
+|  5 | Bill Gates   | 500000 | 2018-01-08 |
++----+--------------+--------+------------+
+5 rows in set (0.00 sec)
+
+mysql> SELECT Salary FROM employee_payroll WHERE Name = 'Bill';
+Empty set (0.00 sec)
+
+
+mysql> SELECT salary FROM employee_payroll WHERE Name='Bill Gates';
++--------+
+| salary |
++--------+
+| 500000 |
++--------+
+1 row in set (0.00 sec)
+
+
+mysql> SELECT Name FROM employee_payroll WHERE Start_date BETWEEN CAST('2018-01-01' AS DATE) AND DATE(NOW());
++--------------+
+| Name         |
++--------------+
+| Radhika Shah |
+| Smita Jain   |
+| Sita Patil   |
+| Charlie abc  |
+| Bill Gates   |
++--------------+
+5 rows in set (0.00 sec)
+
+mysql>  ALTER TABLE employee_payroll ADD COLUMN Gender CHAR(1);
+Query OK, 0 rows affected (1.40 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> UPDATE employee_payroll set Gender = 'F' WHERE Name = 'Radhika Shah' or Name = 'Smita Jain';
+Query OK, 2 rows affected (0.16 sec)
+Rows matched: 2  Changed: 2  Warnings: 0
+
+mysql> UPDATE employee_payroll set Gender = 'F' WHERE Name = 'Sita Patil';
+Query OK, 1 row affected (0.17 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> UPDATE employee_payroll set Gender = 'M' WHERE Name = 'BILL GATES' or Name = 'Charlie abc';
+Query OK, 2 rows affected (0.20 sec)
+Rows matched: 2  Changed: 2  Warnings: 0
+
+
+mysql> SELECT SUM(Salary) FROM employee_payroll WHERE Gender = 'F' GROUP BY Gender;
++-------------+
+| SUM(Salary) |
++-------------+
+|       96000 |
++-------------+
+1 row in set (0.05 sec)
+
+mysql> SELECT ID , Name , AVG(Salary) FROM employee_payroll GROUP BY Gender;
++----+--------------+-------------+
+| ID | Name         | AVG(Salary) |
++----+--------------+-------------+
+|  1 | Radhika Shah |  32000.0000 |
+|  4 | Charlie abc  | 269000.0000 |
++----+--------------+-------------+
+2 rows in set (0.04 sec)
+
+mysql> SELECT MIN(Salary) FROM employee_payroll WHERE Gender = 'M' GROUP BY Gender;
++-------------+
+| MIN(Salary) |
++-------------+
+|       38000 |
++-------------+
+1 row in set (0.06 sec)
+
+mysql> SELECT ID , Name , MAX(Salary) FROM employee_payroll GROUP BY Gender;
++----+--------------+-------------+
+| ID | Name         | MAX(Salary) |
++----+--------------+-------------+
+|  1 | Radhika Shah |       35000 |
+|  4 | Charlie abc  |      500000 |
++----+--------------+-------------+
+2 rows in set (0.02 sec)
+
+mysql> SELECT Gender , COUNT(Gender) FROM employee_payroll GROUP BY GENDER;
++--------+---------------+
+| Gender | COUNT(Gender) |
++--------+---------------+
+| F      |             3 |
+| M      |             2 |
++--------+---------------+
+2 rows in set (0.00 sec)
+
+mysql> SELECT Name , COUNT(Name) FROM employee_payroll GROUP BY GENDER;
++--------------+-------------+
+| Name         | COUNT(Name) |
++--------------+-------------+
+| Radhika Shah |           3 |
+| Charlie abc  |           2 |
++--------------+-------------+
+2 rows in set (0.00 sec)
